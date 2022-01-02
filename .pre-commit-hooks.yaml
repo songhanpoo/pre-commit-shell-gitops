@@ -1,6 +1,13 @@
 - id: branching-check
-  name: check branching strategies
-  description: check branch matching your requirement
+  name: Check branching strategies
+  description: Check branch matching your requirement
   entry: pre_commit_hooks/branching.sh
+  language: script
+  types: [shell]
+
+- id: msg-check
+  name: Check msg strategies
+  description: Check msg matching your requirement
+  entry: pre_commit_hooks/msg.sh
   language: script
   types: [shell]

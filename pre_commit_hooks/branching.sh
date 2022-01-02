@@ -3,10 +3,9 @@
 set -o errexit
 set -o pipefail
 set -o nounset
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-REGEX=".*"
 
 DEBUG=${DEBUG:=0}
+
 [[ "$DEBUG" = "1" ]] && set -o xtrace
 
 if ! command which git &>/dev/null; then
@@ -14,9 +13,17 @@ if ! command which git &>/dev/null; then
   exit 1
 fi
 
-if ! [[ $BRANCH =~ $REGEX ]]; then
-  echo "$@"
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+
+while getopts "p:" arg; do
+  case $arg in
+    p) REGEX=$OPTARG;;
+  esac
+done
+
+if ! [[ $BRANCH =~ ${REGEX:-^(dev|release)-([0-9]+)-q([0-9]+)\.([0-9]+)\.(.+)$} ]]; then
   echo "Your commit was rejected due to branching name"
-  echo "Please rename your branch with '(dev|release)-YYYY-qX.X.X' syntax"
+  echo "Please rename your branch with ${REGEX} syntax"
   exit 1
 fi
