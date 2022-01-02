@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-REGEX="^(dev|release)-([0-9]+)-q([0-9]+)\.([0-9]+)\.(.+)$"
+REGEX=".*"
 
 DEBUG=${DEBUG:=0}
 [[ "$DEBUG" = "1" ]] && set -o xtrace
