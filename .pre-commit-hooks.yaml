@@ -1,0 +1,6 @@
+- id: branching-check
+  name: check branching strategies
+  description: check branch matching your requirement
+  entry: pre_commit_hooks/branching.sh
+  language: script
+  types: [shell]

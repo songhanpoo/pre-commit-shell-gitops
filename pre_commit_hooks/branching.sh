@@ -14,7 +14,6 @@ if ! command which git &>/dev/null; then
   exit 1
 fi
 
-
 if ! [[ $BRANCH =~ $REGEX ]]; then
   echo "$@"
   echo "Your commit was rejected due to branching name"
