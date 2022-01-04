@@ -1,5 +1,7 @@
 # pre-commit-gitops
 ![Branch master](https://img.shields.io/badge/branch-master-brightgreen.svg?style=flat-square)[![Build](https://api.travis-ci.org/detailyang/pre-commit-shell.svg)](https://travis-ci.org/detailyang/pre-commit-shell)[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/detailyang/pre-commit-shell/master/LICENSE)[![release](https://img.shields.io/github/release/detailyang/pre-commit-shell.svg)](https://github.com/detailyang/pre-commit-shell/releases)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+
 
 pre-commit-gitops is a [pre-commit](https://github.com/pre-commit/pre-commit) component, which wrapper [shellcheck](https://www.shellcheck.net/) to check shell scripts:)
 
