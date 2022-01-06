@@ -2,6 +2,7 @@
   name: Check branching strategies
   description: Check branch matching your requirement
   entry: pre_commit_hooks/branching.sh
+  pass_filenames: false
   language: script
   types: [shell]
 
@@ -9,5 +10,6 @@
   name: Check msg strategies
   description: Check msg matching your requirement
   entry: pre_commit_hooks/msg.sh
+  pass_filenames: false
   language: script
   types: [shell]
