@@ -12,4 +12,4 @@
   entry: pre_commit_hooks/msg.sh
   pass_filenames: false
   language: script
-  types: [shell]
+  types: [shell]  
