@@ -27,7 +27,7 @@ done
 # echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"
 FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
 
-
+echo "$PWD"
 echo "${FINAL_REGEX}"
 
 if ! [[ $BRANCH =~ ${FINAL_REGEX:-^(dev|release).*$} ]]; then

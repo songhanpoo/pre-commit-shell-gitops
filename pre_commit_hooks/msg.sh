@@ -8,31 +8,32 @@ DEBUG=${DEBUG:=0}
 
 [[ "$DEBUG" = "1" ]] && set -o xtrace
 
-# echo "Hello"
-# MESSAGE=$(cat /Users/hieunlp/Desktop/DEV/pre-commit/test-branching.git/COMMIT_EDITMSG) 
-# COMMITFORMAT="^(feat|fix|docs|style|refactor|test|chore|perf|other)(\((.*)\))?: #([0-9]+) (.*)$"
+if ! command which git &>/dev/null; then
+  >&2 echo 'git command not found'
+  exit 1
+fi
+
+MSG=$(cat $PWD/.git/COMMIT_EDITMSG)
 
 
+while getopts "p:" arg; do
+  case $arg in
+    p) REGEX=$OPTARG;;
+  esac
+done
 
-echo "$@"
-# echo "$PWD"
-echo "${MESSAGE}"
 
-# while getopts "p:" arg; do
-#   case $arg in
-#     p) REGEX=$OPTARG;;
-#   esac
-# done
+# echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"
+FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
 
-# if ! [[ $BRANCH =~ ${REGEX:-^(feat|fix|docs|style|refactor|test|chore|perf|other)(\((.*)\))?: #([0-9]+) (.*)$} ]]; then
-#   echo "Your commit was rejected due to the commit message. Skipping..." 
-#   echo ""
-#   echo "Please use the following format:"
-#   echo "feat: #1234 feature example comment"
-#   echo "fix(ui): #4321 bugfix example comment"
-#   echo ""
-#   echo "More details on COMMITS.md"
-#   exit 1
-# fi
 
-# exit 0
+echo "${FINAL_REGEX}"
+
+if ! [[ $BRANCH =~ ${FINAL_REGEX:-^(dev|release).*$} ]]; then
+  echo "${FINAL_REGEX}"
+  echo "Your commit msg was rejected due to branching name"
+  echo "Please rename your commit msg with ${FINAL_REGEX} syntax"
+  exit 1
+fi
+
+exit 0

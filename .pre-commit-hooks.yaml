@@ -1,3 +1,8 @@
+---
+# This file tells https://pre-commit.com/
+# which hooks are provided by this repo
+# for use by other git repos.
+
 - id: branching-check
   name: Check branching strategies
   verbose: true
@@ -6,16 +11,15 @@
   description: Check branch matching your requirement
   entry: pre_commit_hooks/branching.sh 
   language: script
+  # files: [files]
   always_run: true
   pass_filenames: false
 
 - id: msg-check
-  verbose: true
   name: Check msg strategies
-  args:
-  - -p=^(dev|release|staging).*$
   description: Check msg matching your requirement
   entry: pre_commit_hooks/msg.sh
   language: script
-  always_run: true
-  pass_filenames: false
+  # always_run: true
+  # # pass_filenames: false
+  # verbose: true
