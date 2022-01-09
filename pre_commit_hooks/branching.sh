@@ -14,7 +14,7 @@ if ! command which git &>/dev/null; then
 fi
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
+DEFAULT_REGEX_BRANCH="^(dev|release).*$"
 
 while getopts "p:" arg; do
   case $arg in
@@ -23,17 +23,15 @@ while getopts "p:" arg; do
 done
 # echo "$@"
 
+if typeset -p REGEX 2> /dev/null | grep -q '^'; then
+  echo `typeset -p REGEX`
+  echo '$var exists'
+  FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
+fi
 
-# echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"
-FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
-
-echo "$PWD"
-echo "${FINAL_REGEX}"
-
-if ! [[ $BRANCH =~ ${FINAL_REGEX:-^(dev|release).*$} ]]; then
-  echo "${FINAL_REGEX}"
+if ! [[ $BRANCH =~ ${FINAL_REGEX:-$DEFAULT_REGEX_BRANCH} ]]; then
   echo "Your commit was rejected due to branching name"
-  echo "Please rename your branch with ${FINAL_REGEX} syntax"
+  echo "Please rename your branch with ${FINAL_REGEX:-$DEFAULT_REGEX_BRANCH} syntax"
   exit 1
 fi
 

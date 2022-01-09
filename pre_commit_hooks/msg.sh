@@ -13,8 +13,18 @@ if ! command which git &>/dev/null; then
   exit 1
 fi
 
-MSG=$(cat $PWD/.git/COMMIT_EDITMSG)
+if ! command which cat &>/dev/null; then
+  >&2 echo 'cat command not found'
+  exit 1
+fi
 
+if ! [[ -d "$PWD/.git/" ]]; then
+  >&2 echo 'not found .git directory in your project'
+  exit 1
+fi
+
+MSG=$(cat $PWD/.git/COMMIT_EDITMSG)
+DEFAULT_REGEX_MSG="^(feat|fix|docs|style|refactor|test|chore|perf|other).*$"
 
 while getopts "p:" arg; do
   case $arg in
@@ -22,17 +32,15 @@ while getopts "p:" arg; do
   esac
 done
 
+if typeset -p REGEX 2> /dev/null | grep -q '^'; then
+  echo `typeset -p REGEX`
+  echo '$var exists'
+  FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
+fi
 
-# echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"
-FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
-
-
-echo "${FINAL_REGEX}"
-
-if ! [[ $BRANCH =~ ${FINAL_REGEX:-^(dev|release).*$} ]]; then
-  echo "${FINAL_REGEX}"
-  echo "Your commit msg was rejected due to branching name"
-  echo "Please rename your commit msg with ${FINAL_REGEX} syntax"
+if ! [[ $MSG =~ ${FINAL_REGEX:-$DEFAULT_REGEX_MSG} ]]; then
+  echo "Your commit msg was rejected due to messaging name"
+  echo "Please rename your commit msg with ${FINAL_REGEX:-$DEFAULT_REGEX_MSG} syntax"
   exit 1
 fi
 
