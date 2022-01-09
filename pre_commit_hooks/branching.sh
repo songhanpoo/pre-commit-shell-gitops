@@ -21,9 +21,20 @@ while getopts "p:" arg; do
     p) REGEX=$OPTARG;;
   esac
 done
+# echo "$@"
 
-if ! [[ $BRANCH =~ ${REGEX:-^(dev|release)-([0-9]+)-q([0-9]+)\.([0-9]+)\.(.+)$} ]]; then
+
+# echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"
+FINAL_REGEX=`echo "${REGEX}" | sed -e "s/\'//g" | sed -e "s/\"//g" | sed -e "s/\=//g"`
+
+
+echo "${FINAL_REGEX}"
+
+if ! [[ $BRANCH =~ ${FINAL_REGEX:-^(dev|release).*$} ]]; then
+  echo "${FINAL_REGEX}"
   echo "Your commit was rejected due to branching name"
-  echo "Please rename your branch with ${REGEX} syntax"
+  echo "Please rename your branch with ${FINAL_REGEX} syntax"
   exit 1
 fi
+
+exit 0
