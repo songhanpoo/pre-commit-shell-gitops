@@ -35,14 +35,16 @@ example .pre-commit-config.yaml as following:
 ```yaml
 repos:
   - repo: https://github.com/songhanpoo/pre-commit-shell-gitops.git
-    rev: v1.0.0-rc1
+    rev: v1.0.3
     hooks:
-    - id: branching-check
-      args:
-        - -p="^(dev|release)-([0-9]+)-q([0-9]+)\.([0-9]+)\.(.+)$"
     - id: msg-check
+      verbose: false
       args:
-        - -p="^(feat|fix|docs|style|refactor|test|chore|perf|other)(\((.*)\))?:\s#([0-9]+)\s(.*)$"
+        - -p=".*"
+    - id: branching-check
+      verbose: false
+      args:
+        - -p=".*"
 ```
 Contributing
 ------------
