@@ -5,23 +5,19 @@
 
 - id: branching-check
   name: Check branching strategies
-  verbose: true
-  # args:
-  #   - -p=^(dev|release|staging).*$
   description: Check branch matching your requirement
   entry: pre_commit_hooks/branching.sh 
   language: script
   # files: [files]
+  verbose: true
   always_run: true
   pass_filenames: false
 
 - id: msg-check
   name: Check msg strategies
   description: Check msg matching your requirement
-  args:
-    - -p=^(feat|fix|docs|style|refactor|test|chore|perf|other)(\((.*)\))?:\s#([0-9]+)\s(.*)$}
   entry: pre_commit_hooks/msg.sh
   language: script
-  # always_run: true
-  # # pass_filenames: false
-  # verbose: true
+  always_run: true
+  pass_filenames: false
+  verbose: true
